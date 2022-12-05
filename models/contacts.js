@@ -3,7 +3,7 @@ const path = require('path');
 const shortid = require('shortid');
 const contactsPath = path.join(__dirname, 'contacts.json');
 
-async function readData() {
+const readData = async () => {
   try {
     const data = await fs.readFile(contactsPath);
     return JSON.parse(data);
@@ -11,6 +11,15 @@ async function readData() {
     console.error(error);
     return [];
   }
+}
+
+const updateContactsInDb = async (data) => {
+   try {
+     await fs.writeFile(contactsPath, JSON.stringify(data));
+     return data;
+   } catch (error) {
+     console.error(error);
+   }
 }
 
 const listContacts = async () => { 
@@ -34,18 +43,14 @@ const removeContact = async contactId => {
 
   const updatedContacts = contacts.filter(contact => contact.id !== contactId.toString());
   
-  try {
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts));
-  } catch (error) {
-    console.error(error);
-  }
+  updateContactsInDb(updatedContacts);
 };
 
 const addContact = async (body) => {
   const contacts = await readData();
 
   const isExistContactInDb = contacts.findIndex(
-    contact => contact.name.toLowerCase() === name.toLowerCase()
+    contact => contact.name.toLowerCase() === body.name.toLowerCase()
   );
 
   if (isExistContactInDb > -1) {
@@ -59,12 +64,7 @@ const addContact = async (body) => {
 
   const updatedContacts = [...contacts, newContact];
 
-  try {
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts));
-    return updatedContacts;
-  } catch (error) {
-    console.error(error);
-  }
+  updateContactsInDb(updatedContacts);
 
   return newContact;
 };
@@ -82,12 +82,7 @@ const updateContact = async (contactId, body) => {
 
   contacts[isExistContactInDb] = { ...contacts[isExistContactInDb], ...body };
   
-  try {
-    await fs.writeFile(contactsPath, JSON.stringify(updatedContacts));
-    return updatedContacts;
-  } catch (error) {
-    console.error(error);
-  }
+  updateContactsInDb(contacts);
 
 };
 
