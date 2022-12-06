@@ -62,7 +62,7 @@ const addContact = async (body) => {
   );
 
   if (isExistContactInDb > -1) {
-    return -1;
+    return;
   }
 
   const newContact = {
@@ -87,7 +87,7 @@ const updateContact = async (contactId, body) => {
   if (isExistContactInDb === -1) {
     return;
   }
-
+  console.log({ ...contacts[isExistContactInDb], ...body });
   contacts[isExistContactInDb] = { ...contacts[isExistContactInDb], ...body };
   
   updateContactsInDb(contacts);
