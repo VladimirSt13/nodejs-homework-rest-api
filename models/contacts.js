@@ -29,21 +29,29 @@ const listContacts = async () => {
 const getContactById = async contactId => {
   const contacts = await readData();
 
-  return contacts.find(contact => contact.id === contactId.toString());
+  const contact = contacts.find(contact => contact.id === contactId);
+
+  if (!contact) {
+    return;
+  }
+
+  return contact;
 };
 
 const removeContact = async contactId => {
   const contacts = await readData();
 
-  const isExistContactInDb = contacts.findIndex(contact => contact.id === contactId.toString());
-
-  if (isExistContactInDb === -1) {
-    return -1;
+  const contact = contacts.find(contact => contact.id === contactId);
+  
+  if (!contact) {
+    return;
   }
 
-  const updatedContacts = contacts.filter(contact => contact.id !== contactId.toString());
+  const updatedContacts = contacts.filter(contact => contact.id !== contactId);
   
   updateContactsInDb(updatedContacts);
+
+  return contact;
 };
 
 const addContact = async (body) => {
@@ -77,13 +85,14 @@ const updateContact = async (contactId, body) => {
   );
 
   if (isExistContactInDb === -1) {
-    return -1;
+    return;
   }
 
   contacts[isExistContactInDb] = { ...contacts[isExistContactInDb], ...body };
   
   updateContactsInDb(contacts);
 
+  return contacts[isExistContactInDb];
 };
 
 module.exports = {
