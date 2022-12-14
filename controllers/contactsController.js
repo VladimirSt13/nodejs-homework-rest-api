@@ -1,41 +1,41 @@
 const {
   getContacts,
   getContactById,
-  removeContactById,
   addContact,
   updateContactById,
-} = require('../models/contacts');
+  updateStatusContactById,
+  removeContactById
+} = require("../models/contacts");
 
 const getContactsController = async (req, res, next) => {
   const contacts = await getContacts();
+
   if (!contacts) {
-    return res.status(400).json({ message: `fail, something wrong` });
+    return res.status(400).json({ message: 'fail, something wrong' });
   }
+
   res.json({ contacts, message: 'success' });
 };
 
 const getContactByIdController = async (req, res, next) => {
   const { contactId: id } = req.params;
   const contact = await getContactById(id);
+
   if (!contact) {
     return res.status(404).json({ message: `Not found` });
   }
+
   res.json({ contact, message: 'success' });
 };
 
 const addContactController = async (req, res, next) => {
-  const newContact = req.body;
+  const contact = req.body;
   
-  if (!newContact) {
+  if (!contact) {
     return res.status(400).json({ message: 'Missing fields' });
   }
   
-  const contact = await addContact(newContact);
-
-
-  if (!contact) {
-    return res.status(400).json({ message: 'Missing required name field' });
-  }
+  await addContact(contact);
 
   res.json({ contact, message: 'Success, contact added' });
 };
@@ -59,12 +59,17 @@ const updateContactByIdController = async (req, res, next) => {
 
 const updateStatusContactByIdController = async (req, res, next) => { 
   const { contactId: id } = req.params;
-  const updatedContactData = req.body;
+  const newStatus = req.body;
   
-  const updatedStatusContact = await updateStatusContactById(id, updatedContactData);
+  const contact = await updateStatusContactById(id, newStatus);
 
-  return contact;
+  if (!contact) {
+    return res.status(404).json({ message: "Not found" });
+  }
+
+  res.json({ contact, message: "Success, contact's status updated" });
 }
+
 const removeContactByIdController = async (req, res, next) => {
   const { contactId: id } = req.params;
 

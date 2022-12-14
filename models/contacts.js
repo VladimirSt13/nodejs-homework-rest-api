@@ -7,17 +7,7 @@ const getContacts = async () => {
 };
 
 const getContactById = async contactId => {
-  const contact = Contact.findById(contactId)
-
-  if (!contact) {
-    throw Error;
-  }
-
-  return contact;
-};
-
-const removeContactById = async contactId => {
-  const contact = await Contact.findByIdAndRemove(contactId);
+  const contact = await Contact.findById(contactId)
 
   return contact;
 };
@@ -31,15 +21,28 @@ const addContact = async (body) => {
 };
 
 const updateContactById = async (contactId, body) => {
-  const updatedContact = await Contact.findByIdAndUpdate(contactId, body)
+  const contact = await Contact.findByIdAndUpdate(contactId, { $set: body }, { new: true });
 
-  return updatedContact
+  return contact;
+};
+
+const updateStatusContactById = async (contactId, body) => {
+  const contact = await Contact.findByIdAndUpdate(contactId, { $set: body }, { new: true });
+
+  return contact;
+};
+
+const removeContactById = async (contactId) => {
+  const contact = await Contact.findByIdAndRemove(contactId);
+
+  return contact;
 };
 
 module.exports = {
   getContacts,
   getContactById,
-  removeContactById,
   addContact,
   updateContactById,
+  updateStatusContactById,
+  removeContactById,
 };

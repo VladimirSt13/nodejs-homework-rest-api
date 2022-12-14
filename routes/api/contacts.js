@@ -9,8 +9,8 @@ const {
 } = require("../../controllers/contactsController");
 const { asyncWrapper } = require('../../helpers/apiHelpers');
 const {
-  updateContactValidation,
   addContactValidation,
+  updateContactValidation,
   updateStatusContactValidation,
 } = require("../../middlewares/valdationMiddlevares");
 
