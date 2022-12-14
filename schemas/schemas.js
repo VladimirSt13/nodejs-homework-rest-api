@@ -9,6 +9,7 @@ const addContactSchema = Joi.object({
     .length(10)
     .pattern(/^[0-9]+$/)
     .required(),
+  favorite: Joi.boolean(),
 });
 
 const updateContactSchema = Joi.object({
@@ -22,7 +23,12 @@ const updateContactSchema = Joi.object({
     .optional(),
 });
 
+const updateStatusContactSchema = Joi.object({
+  favorite: Joi.boolean().required(),
+});
+
 module.exports = {
   addContactSchema,
-  updateContactSchema
-}
+  updateContactSchema,
+  updateStatusContactSchema,
+};

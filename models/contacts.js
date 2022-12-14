@@ -1,104 +1,45 @@
-const fs = require('fs').promises;
-const path = require('path');
-const shortid = require('shortid');
-const contactsPath = path.join(__dirname, 'contacts.json');
+const { Contact } = require('../db/contactModel');
 
-const readData = async () => {
-  try {
-    const data = await fs.readFile(contactsPath);
-    return JSON.parse(data);
-  } catch (error) {
-    console.error(error);
-    return [];
-  }
-}
-
-const updateContactsInDb = async (data) => {
-   try {
-     await fs.writeFile(contactsPath, JSON.stringify(data));
-     return data;
-   } catch (error) {
-     console.error(error);
-   }
-}
-
-const listContacts = async () => { 
-  return await readData();
+const getContacts = async () => { 
+  const contacts = await Contact.find()
+  
+  return contacts;
 };
 
 const getContactById = async contactId => {
-  const contacts = await readData();
-
-  const contact = contacts.find(contact => contact.id === contactId);
+  const contact = Contact.findById(contactId)
 
   if (!contact) {
-    return;
+    throw Error;
   }
 
   return contact;
 };
 
-const removeContact = async contactId => {
-  const contacts = await readData();
-
-  const contact = contacts.find(contact => contact.id === contactId);
-  
-  if (!contact) {
-    return;
-  }
-
-  const updatedContacts = contacts.filter(contact => contact.id !== contactId);
-  
-  updateContactsInDb(updatedContacts);
+const removeContactById = async contactId => {
+  const contact = await Contact.findByIdAndRemove(contactId);
 
   return contact;
 };
 
 const addContact = async (body) => {
-  const contacts = await readData();
+  const newContact = new Contact(body);
 
-  const isExistContactInDb = contacts.findIndex(
-    contact => contact.name.toLowerCase() === body.name.toLowerCase()
-  );
-
-  if (isExistContactInDb > -1) {
-    return;
-  }
-
-  const newContact = {
-    id: shortid.generate(5),
-    ...body
-  };
-
-  const updatedContacts = [...contacts, newContact];
-
-  updateContactsInDb(updatedContacts);
+  await newContact.save();
 
   return newContact;
 };
 
-const updateContact = async (contactId, body) => {
-  const contacts = await readData();
+const updateContactById = async (contactId, body) => {
+  const updatedContact = await Contact.findByIdAndUpdate(contactId, body)
 
-  const isExistContactInDb = contacts.findIndex(
-    contact => contact.id === contactId
-  );
-
-  if (isExistContactInDb === -1) {
-    return;
-  }
-  console.log({ ...contacts[isExistContactInDb], ...body });
-  contacts[isExistContactInDb] = { ...contacts[isExistContactInDb], ...body };
-  
-  updateContactsInDb(contacts);
-
-  return contacts[isExistContactInDb];
+  return updatedContact
 };
 
 module.exports = {
-  listContacts,
+  getContacts,
   getContactById,
-  removeContact,
+  removeContactById,
   addContact,
-  updateContact,
+  updateContactById,
 };
