@@ -1,4 +1,4 @@
-const express = require('express');
+const express = require("express");
 const {
   getContactsController,
   getContactByIdController,
@@ -6,16 +6,11 @@ const {
   updateContactByIdController,
   updateStatusContactByIdController,
   removeContactByIdController,
-} = require("../../controllers/contactsController");
-const { asyncWrapper } = require('../../helpers/apiHelpers');
-const {
-  addContactValidation,
-  updateContactValidation,
-  updateStatusContactValidation,
-} = require("../../middlewares/valdationMiddlevares");
+} = require("../../controllers/contacts");
+const { asyncWrapper } = require("../../helpers/apiHelpers");
+const { addContactValidation, updateContactValidation, updateStatusContactValidation } = require("../../middlewares/validations/contacts");
 
-
-const router = express.Router()
+const router = express.Router();
 
 router.get("/", asyncWrapper(getContactsController));
 router.get("/:contactId", asyncWrapper(getContactByIdController));
@@ -24,5 +19,4 @@ router.put("/:contactId", updateContactValidation, asyncWrapper(updateContactByI
 router.patch("/:contactId/favorite", updateStatusContactValidation, asyncWrapper(updateStatusContactByIdController));
 router.delete("/:contactId", asyncWrapper(removeContactByIdController));
 
-module.exports = router
-
+module.exports = router;
