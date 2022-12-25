@@ -1,4 +1,4 @@
-const { addContact } = require("../../models/contacts");
+const { addContact } = require("../../services/contacts");
 
 const addContactController = async (req, res, next) => {
   const contact = req.body;
