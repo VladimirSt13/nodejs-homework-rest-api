@@ -13,8 +13,11 @@ const {
   updateContactValidation,
   updateStatusContactValidation,
 } = require("../../middlewares/validations/contacts");
+const { authValidation } = require("../../middlewares/validations/users");
 
 const router = express.Router();
+
+router.use(authValidation);
 
 router.get("/", asyncWrapper(getContactsController));
 router.get("/:contactId", asyncWrapper(getContactByIdController));

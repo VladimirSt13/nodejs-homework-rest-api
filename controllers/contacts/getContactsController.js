@@ -1,7 +1,9 @@
 const { getContacts } = require("../../services/contacts");
 
 const getContactsController = async (req, res, next) => {
-  const contacts = await getContacts();
+  const { _id: owner } = req.user;
+
+  const contacts = await getContacts(owner);
 
   if (!contacts) {
     return res.status(400).json({ message: "fail, something wrong" });

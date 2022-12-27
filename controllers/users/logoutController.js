@@ -6,8 +6,7 @@ const logoutController = async (req, res) => {
   try {
     await logout(_id);
 
-    res.status(204);
-    console.log("010101");
+    res.status(204).json("");
   } catch ({ status, message }) {
     res.status(status).json(message);
   }

@@ -16,6 +16,7 @@ usersRouter.post("/login", userValidation, asyncWrapper(loginController));
 
 usersRouter.use(authValidation);
 
+usersRouter.post("/users/current", asyncWrapper(userCurrenController));
 usersRouter.post("/logout", asyncWrapper(logoutController));
 
 module.exports = {usersRouter};
