@@ -5,7 +5,7 @@ const getContactById = async (contactId, owner) => {
   const contact = await Contact.find({ _id: contactId, owner });
 
   if (!contact) {
-    throw error()
+    throw error(404, "Not found");
   }
 
   return contact;

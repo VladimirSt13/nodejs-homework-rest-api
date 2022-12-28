@@ -1,3 +1,4 @@
+const { error } = require("../../helpers/error");
 const { Contact } = require("../../models/contactModel");
 
 const updateContactById = async (contactId, owner, body) => {
@@ -6,6 +7,10 @@ const updateContactById = async (contactId, owner, body) => {
     { $set: body },
     { new: true }
   );
+
+  if (!contact) {
+    throw error(404, "Not found");
+  }
 
   return contact;
 };

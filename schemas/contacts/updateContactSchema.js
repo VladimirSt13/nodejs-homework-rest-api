@@ -5,10 +5,8 @@ const updateContactSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .optional(),
-  phone: Joi.string()
-    .length(10)
-    .pattern(/^[0-9]+$/)
-    .optional(),
+  phone: Joi.string().optional(),
+  favorite: Joi.boolean().optional(),
 });
 
 module.exports = { updateContactSchema };

@@ -7,10 +7,6 @@ const updateStatusContactByIdController = async (req, res, next) => {
 
   const contact = await updateStatusContactById(id, owner, newStatus);
 
-  if (!contact) {
-    return res.status(404).json({ message: "Not found" });
-  }
-
   res.json({ contact, message: "Success, contact's status updated" });
 };
 

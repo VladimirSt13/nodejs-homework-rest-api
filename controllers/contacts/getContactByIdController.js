@@ -5,10 +5,6 @@ const getContactByIdController = async (req, res, next) => {
   const { _id: owner } = req.user;
   const contact = await getContactById(id, owner);
 
-  if (!contact) {
-    return res.status(404).json({ message: `Not found` });
-  }
-
   res.json({ contact, message: "success" });
 };
 

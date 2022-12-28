@@ -3,13 +3,9 @@ const { logout } = require("../../services/users");
 const logoutController = async (req, res) => {
   const { _id } = req.user;
 
-  try {
-    await logout(_id);
+  await logout(_id);
 
-    res.status(204).json("");
-  } catch ({ status, message }) {
-    res.status(status).json(message);
-  }
+  res.status(204).json("");
 };
 
 module.exports = {

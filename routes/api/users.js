@@ -5,6 +5,7 @@ const {
   singupController,
   loginController,
   logoutController,
+  currentController,
 } = require("../../controllers/users");
 const {
   userValidation,
@@ -14,9 +15,7 @@ const {
 usersRouter.post("/signup", userValidation, asyncWrapper(singupController));
 usersRouter.post("/login", userValidation, asyncWrapper(loginController));
 
-usersRouter.use(authValidation);
+usersRouter.get("/current", authValidation, asyncWrapper(currentController));
+usersRouter.post("/logout", authValidation, asyncWrapper(logoutController));
 
-usersRouter.post("/users/current", asyncWrapper(userCurrenController));
-usersRouter.post("/logout", asyncWrapper(logoutController));
-
-module.exports = {usersRouter};
+module.exports = { usersRouter };
