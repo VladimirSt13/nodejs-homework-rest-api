@@ -5,7 +5,6 @@ const singupController = async (req, res) => {
 
   const user = await signup(email, password, data);
 
-  console.log(user);
   res.status(201).json({
     user: {
       email: user.email,

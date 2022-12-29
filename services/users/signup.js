@@ -16,7 +16,7 @@ const signup = async (email, password, data) => {
     if (err.code === 11000) {
       throw error(409, `Email in use, code:${err.code}`);
     }
-    throw error(409, err.code);
+    throw error(409, err);
   }
 };
 

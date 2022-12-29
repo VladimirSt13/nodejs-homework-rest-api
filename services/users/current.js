@@ -7,7 +7,7 @@ const current = async (_id) => {
   if (!result) {
     throw error(401, "Not authorized");
   }
-  console.log("result :>> ", result.email);
+
   return result;
 };
 

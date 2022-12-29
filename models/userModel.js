@@ -1,6 +1,8 @@
 const { mongoose } = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const subscriptionTypes = ["starter", "pro", "business"];
+
 const userSchema = new mongoose.Schema({
   password: {
     type: String,
@@ -13,7 +15,7 @@ const userSchema = new mongoose.Schema({
   },
   subscription: {
     type: String,
-    enum: ["starter", "pro", "business"],
+    enum: subscriptionTypes,
     default: "starter",
   },
   token: {
@@ -32,4 +34,5 @@ const User = mongoose.model("User", userSchema);
 
 module.exports = {
   User,
+  subscriptionTypes,
 };
