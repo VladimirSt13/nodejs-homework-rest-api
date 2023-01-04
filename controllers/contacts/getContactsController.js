@@ -1,13 +1,14 @@
-const { getContacts } = require("../../models/contacts");
+const { getContacts } = require("../../services/contacts");
 
 const getContactsController = async (req, res, next) => {
-  const contacts = await getContacts();
+  const { _id: owner } = req.user;
+  let { skip = 0, limit = 5, favorite } = req.query;
+  limit = parseInt(limit) > 10 ? 10 : parseInt(limit);
+  skip = parseInt(skip);
 
-  if (!contacts) {
-    return res.status(400).json({ message: "fail, something wrong" });
-  }
+  const contacts = await getContacts({ owner, favorite }, { skip, limit });
 
-  res.json({ contacts, message: "success" });
+  res.status(200).json({ contacts, message: "success", skip, limit });
 };
 
 module.exports = { getContactsController };

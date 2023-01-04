@@ -1,10 +1,11 @@
+const { error } = require("../../../helpers/error");
 const { addContactSchema } = require("../../../schemas/contacts");
 
 const addContactValidation = (req, res, next) => {
   const validationResult = addContactSchema.validate(req.body);
 
   if (validationResult.error) {
-    return res.status(400).json({ status: validationResult.error.details });
+    throw error(400, JSON.stringify(validationResult.error.details));
   }
 
   next();
