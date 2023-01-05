@@ -7,12 +7,14 @@ const {
   logoutController,
   currentController,
   updateSubscriptionController,
+  uploadAvatarController,
 } = require("../../controllers/users");
 const {
   userValidation,
   authValidation,
   subscriptionValidation,
 } = require("../../middlewares/validations/users");
+const { uploadMiddleware } = require("../../middlewares/uploadMiddleware");
 
 usersRouter.post("/signup", userValidation, asyncWrapper(singupController));
 
@@ -26,6 +28,11 @@ usersRouter.patch(
   subscriptionValidation,
   asyncWrapper(updateSubscriptionController)
 );
+
+usersRouter.patch("/avatars",
+  authValidation,
+  uploadMiddleware.single('avatar'),
+  asyncWrapper(uploadAvatarController));
 
 usersRouter.post("/logout", authValidation, asyncWrapper(logoutController));
 
