@@ -11,7 +11,6 @@ const uploadAvatarController = async (req, res) => {
 
   res.status(200).json({
     avatarURL,
-    status: "success123",
   });
 };
 
