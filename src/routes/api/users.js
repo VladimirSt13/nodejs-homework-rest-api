@@ -2,7 +2,7 @@ const express = require("express");
 const usersRouter = express.Router();
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 const {
-  singupController,
+  signupController,
   loginController,
   logoutController,
   currentController,
@@ -16,7 +16,7 @@ const {
 } = require("../../middlewares/validations/users");
 const { uploadMiddleware } = require("../../middlewares/uploadMiddleware");
 
-usersRouter.post("/signup", userValidation, asyncWrapper(singupController));
+usersRouter.post("/signup", userValidation, asyncWrapper(signupController));
 
 usersRouter.post("/login", userValidation, asyncWrapper(loginController));
 
@@ -29,10 +29,12 @@ usersRouter.patch(
   asyncWrapper(updateSubscriptionController)
 );
 
-usersRouter.patch("/avatars",
+usersRouter.patch(
+  "/avatars",
   authValidation,
-  uploadMiddleware.single('avatar'),
-  asyncWrapper(uploadAvatarController));
+  uploadMiddleware.single("avatar"),
+  asyncWrapper(uploadAvatarController)
+);
 
 usersRouter.post("/logout", authValidation, asyncWrapper(logoutController));
 
