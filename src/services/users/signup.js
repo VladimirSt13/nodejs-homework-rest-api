@@ -1,11 +1,15 @@
 const { error } = require("../../helpers/error");
 const { User } = require("../../models/userModel");
+const gravatar = require("gravatar");
 
 const signup = async (email, password, data) => {
+  const avatarURL = gravatar.url(email, { s: "200" });
+
   try {
     const user = new User({
       email,
       password,
+      avatarURL,
       ...data,
     });
 

@@ -1,11 +1,11 @@
 const { signup } = require("../../services/users");
 
-const singupController = async (req, res) => {
+const signupController = async (req, res) => {
   const { email, password, ...data } = req.body;
 
   const user = await signup(email, password, data);
 
-  res.status(201).json({
+  return res.status(201).json({
     user: {
       email: user.email,
       subscription: user.subscription,
@@ -14,5 +14,5 @@ const singupController = async (req, res) => {
 };
 
 module.exports = {
-  singupController,
+  signupController,
 };
