@@ -1,5 +1,5 @@
 const { error } = require("../../../helpers/error");
-const { subscriptionSchema } = require("../../../schemas/users/subscriptionSchema");
+const { subscriptionSchema } = require("../../../schemas/users");
 
 const subscriptionValidation = (req, res, next) => {
   const validationResult = subscriptionSchema.validate(req.body);
