@@ -3,6 +3,8 @@ const usersRouter = express.Router();
 const { asyncWrapper } = require("../../helpers/apiHelpers");
 const {
   signupController,
+  signupVerificationController,
+  verificationController,
   loginController,
   logoutController,
   currentController,
@@ -12,11 +14,23 @@ const {
 const {
   userValidation,
   authValidation,
+  emailValidation,
   subscriptionValidation,
 } = require("../../middlewares/validations/users");
 const { uploadMiddleware } = require("../../middlewares/uploadMiddleware");
 
 usersRouter.post("/signup", userValidation, asyncWrapper(signupController));
+
+usersRouter.post(
+  "/verify",
+  emailValidation,
+  asyncWrapper(verificationController)
+);
+
+usersRouter.get(
+  "/verify/:verificationToken",
+  asyncWrapper(signupVerificationController)
+);
 
 usersRouter.post("/login", userValidation, asyncWrapper(loginController));
 

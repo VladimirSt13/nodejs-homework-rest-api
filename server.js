@@ -1,8 +1,8 @@
 const dotenv = require("dotenv");
+dotenv.config();
 const app = require("./src/app");
 const { connectDb } = require("./src/db/connection");
 
-dotenv.config();
 
 const PORT = process.env.PORT || 3003;
 
@@ -26,6 +26,5 @@ const start = async () => {
 start();
 
 module.exports = {
-  start
+  start,
 };
-
